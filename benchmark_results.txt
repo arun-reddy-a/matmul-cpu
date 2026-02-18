@@ -1,0 +1,154 @@
+========================================
+Matmul CPU benchmark results
+Generated: Wed Feb 18 17:53:14 EST 2026
+========================================
+
+--- 1.cpp (1) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include  1.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_1 -L/opt/homebrew/lib -lbenchmark -lpthread 
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:16-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_1
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.58, 1.77, 1.66
+------------------------------------------------------------------------------
+Benchmark                    Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------
+BM_MatmulNaive_1024       6280 ms         6265 ms            1 FLOP/s=342.768M/s
+Done: 1.cpp
+
+--- 2.cpp (2) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include  2.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_2 -L/opt/homebrew/lib -lbenchmark -lpthread 
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:24-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_2
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.49, 1.74, 1.65
+---------------------------------------------------------------------------------------
+Benchmark                             Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------
+BM_MatmulNaive_Template_1024       6303 ms         6290 ms            1 FLOP/s=341.393M/s
+Done: 2.cpp
+
+--- 3.cpp (3) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include -O3 -march=native -ffast-math 3.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_3 -L/opt/homebrew/lib -lbenchmark -lpthread 
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:33-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_3
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.45, 1.73, 1.64
+---------------------------------------------------------------------------------------
+Benchmark                             Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------
+BM_MatmulNaive_Template_1024       1602 ms         1558 ms            1 FLOP/s=1.37814G/s
+Done: 3.cpp
+
+--- 4.cpp (4) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include -O3 -march=native -ffast-math 4.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_4 -L/opt/homebrew/lib -lbenchmark -lpthread 
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:36-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_4
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.42, 1.72, 1.64
+------------------------------------------------------------------------------------
+Benchmark                          Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------
+BM_MatmulRegisterAcc_1024       1378 ms         1372 ms            1 FLOP/s=1.56571G/s
+Done: 4.cpp
+
+--- 5.cpp (5) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include -O3 -march=native -ffast-math 5.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_5 -L/opt/homebrew/lib -lbenchmark -lpthread 
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:39-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_5
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.46, 1.72, 1.64
+---------------------------------------------------------------------------------------------
+Benchmark                                   Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------
+BM_MatmulLoopOrderRegisterAcc_1024        139 ms          138 ms            5 FLOP/s=15.5072G/s
+Done: 5.cpp
+
+--- 6.cpp (6) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include -O3 -march=native -ffast-math 6.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_6 -L/opt/homebrew/lib -lbenchmark -lpthread 
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:42-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_6
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.46, 1.72, 1.64
+------------------------------------------------------------------------------------------
+Benchmark                                Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------------
+BM_MatmulTilingRegisterAcc_1024        131 ms          131 ms            5 FLOP/s=16.4385G/s
+Done: 6.cpp
+
+--- 7.cpp (7) ---
+Compile: clang++ -std=c++17 -I/opt/homebrew/include -O3 -march=native -ffast-math -I/opt/homebrew/opt/libomp/include -Xpreprocessor -fopenmp 7.cpp -o /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_7 -L/opt/homebrew/lib -lbenchmark -lpthread -L/opt/homebrew/opt/libomp/lib -lomp
+Running...
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
+2026-02-18T17:53:45-05:00
+Running /Users/arunreddy/Desktop/Performance/matmul-cpu/build/bench_7
+Run on (8 X 24 MHz CPU s)
+CPU Caches:
+  L1 Data 64 KiB
+  L1 Instruction 128 KiB
+  L2 Unified 4096 KiB (x8)
+Load Average: 1.67, 1.76, 1.66
+-------------------------------------------------------------------------------------------------------
+Benchmark                                             Time             CPU   Iterations UserCounters...
+-------------------------------------------------------------------------------------------------------
+BM_RowColParallelInnerTilingRegisterAcc_1024       46.9 ms         39.5 ms           19 FLOP/s=54.4277G/s
+Done: 7.cpp
+
+--- NumPy matmul (1024×1024 float32) ---
+--- NumPy matmul (1024×1024 float32) ---
+Iterations: 20  (warmup: 3)
+Time:       31.26 ms  (std: 10.94 ms)
+FLOP/s:     68.69 G/s
+(Compare with 7.cpp: BM_RowColParallelInnerTilingRegisterAcc_1024)
+
+========================================
+All benchmarks finished. Results in: /Users/arunreddy/Desktop/Performance/matmul-cpu/benchmark_results.txt
