@@ -4,6 +4,7 @@
 
 set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SRC_DIR="${SCRIPT_DIR}/src"
 cd "$SCRIPT_DIR"
 RESULTS_FILE="${SCRIPT_DIR}/benchmark_results.txt"
 BIN_DIR="${SCRIPT_DIR}/build"
@@ -23,12 +24,13 @@ run_one() {
   local name="$2"
   local extra_cxx="$3"
   local extra_ld="${4:-}"
+  local src_path="${SRC_DIR}/$src"
   local base="${BIN_DIR}/bench_${name}"
   local ld_flags="$BASE_LD $extra_ld"
   echo "" | tee -a "$RESULTS_FILE"
   echo "--- $src ($name) ---" | tee -a "$RESULTS_FILE"
-  echo "Compile: $BASE_CXX $extra_cxx $src -o ${base} $ld_flags" | tee -a "$RESULTS_FILE"
-  if ! $BASE_CXX $extra_cxx "$src" -o "${base}" $ld_flags; then
+  echo "Compile: $BASE_CXX $extra_cxx $src_path -o ${base} $ld_flags" | tee -a "$RESULTS_FILE"
+  if ! $BASE_CXX $extra_cxx "$src_path" -o "${base}" $ld_flags; then
     echo "FAILED to compile $src" | tee -a "$RESULTS_FILE"
     return 1
   fi
@@ -59,7 +61,7 @@ run_one "7.cpp" "7" "$OPT_FLAGS $OMP_FLAGS" "-L/opt/homebrew/opt/libomp/lib -lom
 echo "" | tee -a "$RESULTS_FILE"
 echo "--- NumPy matmul (1024×1024 float32) ---" | tee -a "$RESULTS_FILE"
 if command -v python3 &>/dev/null; then
-  python3 "${SCRIPT_DIR}/benchmark_numpy_matmul.py" 2>&1 | tee -a "$RESULTS_FILE" || true
+  python3 "${SRC_DIR}/benchmark_numpy_matmul.py" 2>&1 | tee -a "$RESULTS_FILE" || true
 else
   echo "python3 not found; skip NumPy benchmark" | tee -a "$RESULTS_FILE"
 fi

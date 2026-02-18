@@ -27,7 +27,7 @@ source .venv/bin/activate   # On Windows: .venv\Scripts\activate
 pip install numpy
 ```
 
-To run the NumPy benchmark later, activate the same environment (`source .venv/bin/activate`) then run `python3 benchmark_numpy_matmul.py` or `./run_all_benchmarks.sh`.
+To run the NumPy benchmark later, activate the same environment (`source .venv/bin/activate`) then run `python3 src/benchmark_numpy_matmul.py` or `./run_all_benchmarks.sh`.
 
 ---
 
@@ -39,27 +39,34 @@ From the `matmul-cpu` directory:
 ./run_all_benchmarks.sh
 ```
 
-This script:
+All source files live in **`src/`**: `src/1.cpp` … `src/7.cpp` and `src/benchmark_numpy_matmul.py`. The script:
 
-- Compiles `1.cpp` and `2.cpp` with **default** clang (no extra optimization flags).
-- Compiles `3.cpp`–`7.cpp` with **`-O3 -march=native -ffast-math`**.
-- Links `7.cpp` with OpenMP (`-lomp` and libomp include/lib paths).
+- Compiles `src/1.cpp` and `src/2.cpp` with **default** clang (no extra optimization flags).
+- Compiles `src/3.cpp`–`src/7.cpp` with **`-O3 -march=native -ffast-math`**.
+- Links `src/7.cpp` with OpenMP (`-lomp` and libomp include/lib paths).
 - Runs each benchmark and appends results to **`benchmark_results.txt`**.
-- Runs **NumPy** matmul (same 1024×1024 float32) for comparison with `7.cpp`; requires a Python environment with NumPy (see **Prerequisites**).
+- Runs **NumPy** matmul via `src/benchmark_numpy_matmul.py` (same 1024×1024 float32) for comparison with `7.cpp`; requires a Python environment with NumPy (see **Prerequisites**).
 
 ---
+
+## Source layout
+
+All benchmarks and the NumPy script are in **`src/`**:
+
+- **`src/1.cpp`** … **`src/7.cpp`** — C++ implementations (see table below).
+- **`src/benchmark_numpy_matmul.py`** — NumPy matmul benchmark (1024×1024 float32).
 
 ## Optimizations by File
 
 | File   | Name / focus | Optimizations |
 |--------|----------------|---------------|
-| **1.cpp** | Vanilla matmul | Naive triple loop, runtime dimensions; no compiler optimizations in the script. |
-| **2.cpp** | Vanilla++ matmul | Same algorithm as 1, but **templated** on `M, N, K` so the compiler can specialize and optimize the inner loops. |
-| **3.cpp** | Vanilla++ with flags | Same templated naive kernel as 2, built with **`-O3 -march=native -ffast-math`** to enable vectorization and arch-specific tuning. |
-| **4.cpp** | Register accumulation | Templated kernel plus an **explicit scalar accumulator** in the inner loop (reduces repeated memory writes and helps the compiler keep the value in a register). |
-| **5.cpp** | Cache-aware loop order | Register accumulation with **loop order** chosen for cache locality (e.g. row-major access, reordered loops) to improve L1/L2 reuse. |
-| **6.cpp** | Cache-aware + inner tiling | Same cache-friendly structure with **inner-loop tiling** (blocking) so that working set fits better in cache and reuse is maximized. |
-| **7.cpp** | Tiling + multithreading | Same tiled, register-accumulator kernel with **OpenMP** parallelization over rows/columns (or tiles), scaling across cores. |
+| **src/1.cpp** | Vanilla matmul | Naive triple loop, runtime dimensions; no compiler optimizations in the script. |
+| **src/2.cpp** | Vanilla++ matmul | Same algorithm as 1, but **templated** on `M, N, K` so the compiler can specialize and optimize the inner loops. |
+| **src/3.cpp** | Vanilla++ with flags | Same templated naive kernel as 2, built with **`-O3 -march=native -ffast-math`** to enable vectorization and arch-specific tuning. |
+| **src/4.cpp** | Register accumulation | Templated kernel plus an **explicit scalar accumulator** in the inner loop (reduces repeated memory writes and helps the compiler keep the value in a register). |
+| **src/5.cpp** | Cache-aware loop order | Register accumulation with **loop order** chosen for cache locality (e.g. row-major access, reordered loops) to improve L1/L2 reuse. |
+| **src/6.cpp** | Cache-aware + inner tiling | Same cache-friendly structure with **inner-loop tiling** (blocking) so that working set fits better in cache and reuse is maximized. |
+| **src/7.cpp** | Tiling + multithreading | Same tiled, register-accumulator kernel with **OpenMP** parallelization over rows/columns (or tiles), scaling across cores. |
 
 ---
 
@@ -86,7 +93,7 @@ To benchmark **NumPy** matmul (same problem size) after setting up the environme
 
 ```bash
 source .venv/bin/activate   # if not already active
-python3 benchmark_numpy_matmul.py
+python3 src/benchmark_numpy_matmul.py
 ```
 
 The script reports mean time (ms) and FLOP/s. It is also run automatically at the end of **`./run_all_benchmarks.sh`** (with whatever `python3` is in your `PATH`); its output is appended to **`benchmark_results.txt`**.
